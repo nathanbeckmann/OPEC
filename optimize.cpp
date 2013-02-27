@@ -152,9 +152,9 @@ Solution opec::solveCournot(const Market& market) {
 }
 
 std::ostream& opec::operator<< (std::ostream& os, const opec::Solution& solution) {
-    os << "Prices:     " << solution.prices.transpose() << std::endl
-       << "Inflated:   " << Market::inflate(solution.prices).transpose() << std::endl            
-       << "Values:     " << solution.values.transpose() << std::endl
+    os << "Prices:     " << std::endl << solution.prices.transpose() << std::endl
+       << "Inflated:   " << std::endl << Market::inflate(solution.prices).transpose() << std::endl            
+       << "Values:     " << std::endl << solution.values.transpose() << std::endl
        << "Quantities: " << std::endl << solution.quantities << std::endl;
     return os;
 }
