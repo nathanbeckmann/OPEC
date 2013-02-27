@@ -86,10 +86,6 @@ Solution opec::solveCournot(const Market& market) {
     // 2. iterate to fixed point on quantity
     int iter = 0;
     do {
-        std::cout << "Iteration " << ++iter << ": " << solution.values.sum()
-                  << "\t(" << (100. * solution.values.sum() / initialValues.sum() - 100.) << "% improved)"
-                  << "\tChange: " << minDiff << "-" << maxDiff << std::endl;
-
         maxDiff = std::numeric_limits<double>::min();
         minDiff = std::numeric_limits<double>::max();
         
@@ -153,7 +149,14 @@ Solution opec::solveCournot(const Market& market) {
         for (int r = 0; r < NumRounds; r++) {
             solution.prices(r) = market.price(r, solution.quantities.col(r));
         }
-    } while (iter < 25000); //(maxDiff > TerminationCondition);
+
+        // progress report
+        if (iter % 1000 == 0) {
+            std::cout << "Iteration " << iter << ": " << solution.values.sum()
+                      << "\t(" << (100. * solution.values.sum() / initialValues.sum() - 100.) << "% improved)"
+                      << "\tChange: " << minDiff << "-" << maxDiff << std::endl;
+        }
+    } while (++iter <= 30000); //(maxDiff > TerminationCondition);
 
     verify(solution, market);
 
