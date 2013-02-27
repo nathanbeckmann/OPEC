@@ -23,6 +23,28 @@ Vector project(const Vector& v, const Vector& onto = roundOrthogonal) {
     return v - rejection;
 }
 
+void verify(const Solution& solution, const Market& market) {
+    // check that no country can make a beneficial trade, within a
+    // small margin of error
+    for (int a = 0; a < market.size(); a++) {
+        auto& actor = *market.actors[a];
+        auto q = solution.quantities.row(a);
+        auto margin = Market::inflate(solution.prices - actor.costs(q));
+    
+        for (int r = 0; r < NumRounds; r++) {
+            // if we aren't producing at quantity in this round, then
+            // it must be the case that no other round in which we
+            // aren't producing at quantity would give a better payoff
+            if (q(r) < actor.capacity) {
+                for (int s = 0; s < NumRounds; s++) {
+                    assert(q(s) == actor.capacity ||
+                           margin(s) <= 1.01 * margin(r));
+                }
+            }
+        }
+    }
+}
+
 }
 
 Solution opec::solveCournot(const Market& market) {
@@ -123,6 +145,8 @@ Solution opec::solveCournot(const Market& market) {
             solution.prices(r) = market.price(r, solution.quantities.col(r));
         }
     } while (iter < 25000); //(maxDiff > TerminationCondition);
+
+    verify(solution, market);
 
     return solution;
 }
