@@ -11,9 +11,9 @@ class World {
 
         const Curve& demand(int round) const {
             if (round % 2 == 0) {
-                return *highResidualDemand;
-            } else {
                 return *lowResidualDemand;
+            } else {
+                return *highResidualDemand;
             }
         }
 
