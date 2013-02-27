@@ -13,6 +13,15 @@ using namespace opec;
 // Which defines a plane in N-dimensional space (N = NumRounds). In
 // order to iterate along this plane towards the optimal solution, we
 // need to project the price vector onto the plane.
+//
+// We also have the capacity constraint:
+//
+// 0 <= qi <= capacity      for all i
+//
+// This is enforced by bounding the qi at each step to the constraint,
+// and then eliminating constrained dimensions from the plane. The
+// step is re-projected onto the plane in the unconstrained dimensions
+// to keep the reserve constraint.
 
 namespace {
 
@@ -123,7 +132,7 @@ Solution opec::solveCournot(const Market& market) {
 
                 // renormalize step to keep reserve constraint ... this
                 // will naturally reduce the size of the step if we are in
-                // a corner solution, so we don't re-normalize.
+                // a corner solution, so we don't re-scale by Delta.
                 constraints.normalize();
                 step = project(step, constraints);
             }
