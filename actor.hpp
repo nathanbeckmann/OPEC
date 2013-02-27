@@ -20,6 +20,7 @@ class Actor {
         virtual const Curve& supply() const { return const_cast<Actor*>(this)->supply(); }
 
         double value(const RoundVector& quantity, const RoundVector& prices) const;
+        RoundVector costs(const RoundVector& quantity) const;
 
         void isConstrained(const RoundVector& quantity) const;
 };

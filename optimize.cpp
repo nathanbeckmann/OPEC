@@ -69,17 +69,12 @@ Solution opec::solveCournot(const Market& market) {
 
             double prevValue = solution.values(a);
 
-            RoundVector costs;
-            for (int r = 0; r <= NumRounds; r++) {
-                costs(r) = actor.supply().evaluate(q(r));
-            }
-
             // this vector points in the direction of greatest profit;
             // this is where we want to move. we need to scale the
             // prices to reflect inflation.
-            RoundVector profit = Market::inflate(solution.prices - costs);
+            RoundVector margin = Market::inflate(solution.prices - actor.costs(q));
             
-            RoundVector step = project(profit).normalized() * Delta;
+            RoundVector step = project(margin).normalized() * Delta;
             assert(feq(step.sum(), 0.)); // we're moving along a constant constraint; the net change must be zero
 
             // enforce capacity constraints...can't produce negative

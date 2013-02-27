@@ -38,3 +38,11 @@ void Actor::isConstrained(const RoundVector& quantity) const {
         assert(false);
     }
 }
+
+RoundVector Actor::costs(const RoundVector& quantity) const {
+    RoundVector costs;
+    for (int r = 0; r <= NumRounds; r++) {
+        costs(r) = supply().evaluate(quantity(r));
+    }
+    return costs;
+}
