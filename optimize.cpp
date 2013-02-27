@@ -56,7 +56,7 @@ Solution opec::solveCournot(const Market& market) {
     int iter = 0;
     do {
         std::cout << "Iteration " << ++iter << ": " << solution.values.sum()
-                  << " (" << (100. * solution.values.sum() / initialValues.sum() - 100.) << "% improved); "
+                  << "\t(" << (100. * solution.values.sum() / initialValues.sum() - 100.) << "% improved)"
                   << "\tChange: " << minDiff << "-" << maxDiff << std::endl;
 
         maxDiff = std::numeric_limits<double>::min();
@@ -77,12 +77,7 @@ Solution opec::solveCournot(const Market& market) {
             // this vector points in the direction of greatest profit;
             // this is where we want to move. we need to scale the
             // prices to reflect inflation.
-            RoundVector profit = solution.prices - costs;
-            double inflation = 1.;
-            for (int r = NumRounds; r >= 0; r--) {
-                profit(r) *= inflation;
-                inflation *= InterestRate;
-            }
+            RoundVector profit = Market::inflate(solution.prices - costs);
             
             RoundVector step = project(profit).normalized() * Delta;
             assert(feq(step.sum(), 0.)); // we're moving along a constant constraint; the net change must be zero
@@ -119,12 +114,7 @@ Solution opec::solveCournot(const Market& market) {
             // make the move!
             q += step;
 
-            // verify constraints
-            for (int r = 0; r <= NumRounds; r++) {
-                bool satisfied = 0. <= q(r) && q(r) <= actor.capacity;
-                if (!satisfied) { std::cerr << 0. << " < " << q(r) << " < " << actor.capacity << std::endl << "round: " << r << ", step: " << step(r) << ", constraint: " << constraints(r) << std::endl; assert(false); }
-            }
-            if (!approx<double>(q.sum(), actor.reserves, 1000)) { std::cerr << q.sum() << " != " << actor.reserves << std::endl; assert(false); }
+            actor.isConstrained(q);
 
             solution.values(a) = actor.value(q, solution.prices);
             auto diff = solution.values(a) - prevValue;
@@ -137,14 +127,15 @@ Solution opec::solveCournot(const Market& market) {
         for (int r = 0; r < NumRounds; r++) {
             solution.prices(r) = market.price(r, solution.quantities.col(r));
         }
-    } while (iter < 100000); //(maxDiff > TerminationCondition);
+    } while (iter < 25000); //(maxDiff > TerminationCondition);
 
     return solution;
 }
 
 std::ostream& opec::operator<< (std::ostream& os, const opec::Solution& solution) {
-    os << "Prices: " << solution.prices.transpose() << std::endl
-       << "Values: " << solution.values.transpose() << std::endl
+    os << "Prices:     " << solution.prices.transpose() << std::endl
+       << "Inflated:   " << Market::inflate(solution.prices).transpose() << std::endl            
+       << "Values:     " << solution.values.transpose() << std::endl
        << "Quantities: " << std::endl << solution.quantities << std::endl;
     return os;
 }

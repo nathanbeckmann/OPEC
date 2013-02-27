@@ -23,3 +23,18 @@ double Actor::value(const RoundVector& quantity, const RoundVector& prices) cons
 
     return v;
 }
+
+void Actor::isConstrained(const RoundVector& quantity) const {
+    for (int r = 0; r <= NumRounds; r++) {
+        bool satisfied = 0. <= quantity(r) && quantity(r) <= capacity;
+        if (!satisfied) {
+            std::cerr << 0. << " < " << quantity(r) << " < " << capacity << std::endl;
+                      // << "round: " << r << ", step: " << step(r) << ", constraint: " << constraints(r) << std::endl;
+            assert(false);
+        }
+    }
+    if (!approx<double>(quantity.sum(), reserves, 1000)) {
+        std::cerr << quantity.sum() << " != " << reserves << std::endl;
+        assert(false);
+    }
+}

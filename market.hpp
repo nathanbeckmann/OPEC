@@ -13,9 +13,11 @@ class Market {
         double price(int round, Vector quantity) const;
 
         int size() const { return actors.size(); }
-        
+
         std::vector<const Actor*> actors;
 
+        static Vector inflate(const Vector& prices);
+        
     private:
         World world;
 };

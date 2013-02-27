@@ -15,6 +15,11 @@ int main() {
     auto sol = solveCournot(market);
 
     std::cout << "\n\nDone!\n\n";
+    std::cout << "Countries: ";
+    for (auto actor : market.actors) {
+        std::cout << actor->name << ", ";
+    }
+    std::cout << std::endl;
     std::cout << sol;
     
     return 0;
