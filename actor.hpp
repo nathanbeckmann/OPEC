@@ -2,6 +2,7 @@
 
 #include <string>
 #include "curve.hpp"
+#include "optimize.hpp"
 
 namespace opec {
 

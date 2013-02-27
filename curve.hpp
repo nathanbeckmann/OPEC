@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cassert>
 #include <vector>
 
 namespace opec {
@@ -7,14 +8,15 @@ namespace opec {
 class Curve {
     public:
         virtual ~Curve() {}
-        virtual double quantity(double price) const = 0;
-        double operator() (double price) const { return quantity(price); }
+        virtual double evaluate(double x) const = 0;
+        virtual double integrate(double x) const = 0;
 };
 
 class ConstantCurve : public Curve {
     public:
         ConstantCurve(double _q) : q(_q) {}
-        double quantity(double price) const { return q; }
+        double evaluate(double x) const { return q; }
+        double integrate(double x) const { return q * x; }
     private:
         double q;
 };
@@ -25,11 +27,12 @@ class PiecewiseCurve : public Curve {
 
 class InterpolatingCurve : public Curve {
     public:
-        InterpolatingCurve(std::vector<double>&& _prices,
-                           std::vector<double>&& _quantities);
-        double quantity(double price) const;
+        InterpolatingCurve(std::vector<double>&& _vy,
+                           std::vector<double>&& _vx);
+        double evaluate(double x) const;
+        double integrate(double x) const;
     private:
-        std::vector<double> prices, quantities;
+        std::vector<double> vy, vx;
 };
 
 }

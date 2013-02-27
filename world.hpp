@@ -4,32 +4,22 @@
 
 namespace opec {
 
-class World : public Actor {
+class World {
     public:
-        World(int _capacity,
-              std::vector<double>&& worldPrices,
-              std::vector<double>&& worldQuantity)
-                : Actor("world")
-                , reserves(std::numeric_limits<int>::max())
-                , capacity(_capacity)
-                , residual(std::forward(worldPrices), std::forward(worldQuantity)) {
-        }
+        World();
+        ~World();
 
-        Curve& supply() { return residual; }
-
-        static World lowDemand;
-        static World highDemand;
-
-        static World& current(int round) {
+        const Curve& demand(int round) const {
             if (round % 2 == 0) {
-                return highDemand;
+                return *highResidualDemand;
             } else {
-                return lowDemand;
+                return *lowResidualDemand;
             }
         }
 
     private:
-        InterpolatingCurve residual;
+        InterpolatingCurve* lowResidualDemand;
+        InterpolatingCurve* highResidualDemand;
 };
 
 }

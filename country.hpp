@@ -11,12 +11,11 @@ namespace opec {
 class Country : public Actor {
     public:
         Country(string _name, int _reserves, int _capacity, int _marginalCost)
-                : Actor(_name), reserves(_reserves), capacity(_capacity), marginalCost(_marginalCost) {
+                : Actor(_name), marginalCost(_marginalCost) {
+            reserves = _reserves;
+            capacity = _capacity;
         }
         
-        string name;
-        int reserves;
-        int capacity;
         Curve& supply() { return marginalCost; }
 
     private:

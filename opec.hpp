@@ -18,7 +18,8 @@ class Opec {
             NumCountries
         };
 
-        Country operator[] (Countries country) { return countries[country]; }
+        Country& operator[] (Countries country) { return countries[country]; }
+        Country& operator[] (int country) { return (*this)[Countries(country)]; }
 
         Opec()
                 : countries({Country("Saudi Arabia", 108000, 12000, 9),

@@ -1,32 +1,34 @@
 #pragma once
 
+#include <iostream>
 #include <vector>
-#include <Eigen/Matrix>
-#include "opec.hpp"
+#include <Eigen/Core>
 #include "constants.hpp"
 
 namespace opec {
-namespace optimize {
 
-typedef Eigen::Vector<double, NumRounds+1, 1> RoundVector;
+typedef Eigen::Matrix<double, NumRounds+1, 1> RoundVector;
 typedef Eigen::VectorXd Vector;
-typedef Eigen::MatrixXXd Matrix;
+typedef Eigen::MatrixXd Matrix;
 
 class Market;
 
 struct Solution {
-        Solution(int nactors) : quantities(nactors), values(nactor) {
+        Solution(int nactors)
+                : quantities(nactors, NumRounds+1)
+                , values(nactors) {
             quantities.setZero();
             prices.setZero();
             values.setZero();
         }
         
-        Eigen::Matrix<double, Dynamic, NumRounds+1> quantities;
+        Eigen::Matrix<double, Eigen::Dynamic, NumRounds+1> quantities;
         RoundVector prices;
         Vector values;
 };
 
+std::ostream& operator<< (std::ostream& os, const Solution& sol);
+
 Solution solveCournot(const Market& market);
 
-}
 }
