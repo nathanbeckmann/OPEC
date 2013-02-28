@@ -58,10 +58,11 @@ void verify(const Solution& solution, const Market& market) {
 
 }
 
-Solution opec::solveCournot(const Market& market) {
+Solution opec::solve(const Market& market) {
     Solution solution(market.size());
-    double minDiff, maxDiff;
-    const double Delta = 10.;
+    Vector diff(market.size());
+    double maxDiff = 0.;
+    const double Delta = 5.;
     // const double TerminationCondition = 0.1;
 
     // 1. Initial values
@@ -73,30 +74,53 @@ Solution opec::solveCournot(const Market& market) {
         solution.quantities(a, NumRounds) = 0.;
     }
 
-    for (int r = 0; r < NumRounds; r++) {
-        solution.prices(r) = market.price(r, solution.quantities.col(r));
-    }
-    solution.prices(NumRounds) = SellOffPrice;
+    auto update = [&] () {
+        for (int r = 0; r <= NumRounds; r++) {
+            solution.production(r) = solution.quantities.col(r).sum();
+        }
 
-    for (int a = 0; a < market.size(); a++) {
-        auto& actor = *market.actors[a];
-        solution.values(a) += actor.value(solution.quantities.row(a), solution.prices);
-    }
+        for (int r = 0; r < NumRounds; r++) {
+            solution.prices(r) = market.price(r, solution.production(r));
+        }
+        solution.prices(NumRounds) = SellOffPrice;
 
+        for (int a = 0; a < market.size(); a++) {
+            auto& actor = *market.actors[a];
+            auto q = solution.quantities.row(a);
+            double prevValue = solution.values(a);
+            solution.values(a) = actor.value(q, solution.prices);
+            diff(a) = solution.values(a) - prevValue;
+        }
+
+        maxDiff = std::max(maxDiff, diff.norm());
+    };
+
+    update();
     auto initialValues = solution.values;
 
     // 2. iterate to fixed point on quantity
     int iter = 0;
     do {
-        maxDiff = std::numeric_limits<double>::min();
-        minDiff = std::numeric_limits<double>::max();
-        
+        update();
+
+        for (int a = 0; a < market.size(); a++) {
+            auto& actor = *market.actors[a];
+            auto q = solution.quantities.row(a);
+            actor.update(solution, q);
+        }
+
+        // progress report
+        if (iter % 5000 == 0) {
+            std::cout << "Iteration " << iter << ": " << solution.values.sum()
+                      << "\t(" << (100. * solution.values.sum() / initialValues.sum() - 100.) << "% improved)"
+                      << "\tChange: " << maxDiff << std::endl;
+            maxDiff = 0.;
+        }
+
         // set quantity based on current prices
         for (int a = 0; a < market.size(); a++) {
             auto& actor = *market.actors[a];
             auto q = solution.quantities.row(a);
-
-            double prevValue = solution.values(a);
 
             // this vector points in the direction of greatest profit;
             // this is where we want to move. we need to scale the
@@ -141,26 +165,9 @@ Solution opec::solveCournot(const Market& market) {
             q += step;
 
             actor.isConstrained(q);
-
-            solution.values(a) = actor.value(q, solution.prices);
-            auto diff = solution.values(a) - prevValue;
-            // assert(diff > 0.);
-            maxDiff = std::max(maxDiff, diff);
-            minDiff = std::min(minDiff, diff);
         }
 
-        // update prices
-        for (int r = 0; r < NumRounds; r++) {
-            solution.prices(r) = market.price(r, solution.quantities.col(r));
-        }
-
-        // progress report
-        if (iter % 1000 == 0) {
-            std::cout << "Iteration " << iter << ": " << solution.values.sum()
-                      << "\t(" << (100. * solution.values.sum() / initialValues.sum() - 100.) << "% improved)"
-                      << "\tChange: " << minDiff << "-" << maxDiff << std::endl;
-        }
-    } while (++iter <= 30000); //(maxDiff > TerminationCondition);
+    } while (++iter <= 10000); //(diff.norm() > TerminationCondition);
 
     verify(solution, market);
 

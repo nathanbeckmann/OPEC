@@ -8,6 +8,8 @@
 namespace opec {
 
 typedef Eigen::Matrix<double, NumRounds+1, 1> RoundVector;
+typedef Eigen::Matrix<double, Eigen::Dynamic, NumRounds+1> RoundMatrix;
+typedef Eigen::Block<RoundMatrix, 1, NumRounds+1> RowRoundVectorRef;
 typedef Eigen::VectorXd Vector;
 typedef Eigen::MatrixXd Matrix;
 
@@ -22,13 +24,14 @@ struct Solution {
             values.setZero();
         }
         
-        Eigen::Matrix<double, Eigen::Dynamic, NumRounds+1> quantities;
+        RoundMatrix quantities;
+        RoundVector production;         // aka, column-wise sum of quantities
         RoundVector prices;
         Vector values;
 };
 
 std::ostream& operator<< (std::ostream& os, const Solution& sol);
 
-Solution solveCournot(const Market& market);
+Solution solve(const Market& market);
 
 }

@@ -12,7 +12,7 @@ int main() {
     
     Market market(std::move(actors));
     
-    auto sol = solveCournot(market);
+    auto sol = solve(market);
 
     std::cout << "\n\nDone!\n\n";
     std::cout << "Countries: ";
