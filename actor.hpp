@@ -17,7 +17,7 @@ class Actor {
         int reserves;
         int capacity;
         virtual Curve& supply() = 0;
-        virtual const Curve& supply() const { return const_cast<Actor*>(this)->supply(); }
+        const Curve& supply() const { return const_cast<Actor*>(this)->supply(); }
 
         double value(const RoundVector& quantity, const RoundVector& prices) const;
         RoundVector costs(const RoundVector& quantity) const;

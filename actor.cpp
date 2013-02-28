@@ -1,6 +1,7 @@
 #include <iostream>
 #include "actor.hpp"
 #include "misc.hpp"
+#include "market.hpp"
 
 using namespace opec;
 
