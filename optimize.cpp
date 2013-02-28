@@ -1,4 +1,5 @@
 #include <iostream>
+#include <iomanip>
 #include "optimize.hpp"
 #include "market.hpp"
 #include "misc.hpp"
@@ -64,6 +65,7 @@ Solution opec::solve(const Market& market) {
     double maxDiff = 0.;
     const double Delta = 5.;
     // const double TerminationCondition = 0.1;
+    int iter = 0, lastReport;
 
     // 1. Initial values
     for (int a = 0; a < market.size(); a++) {
@@ -97,8 +99,15 @@ Solution opec::solve(const Market& market) {
     update();
     auto initialValues = solution.values;
 
+    auto report = [&] () {
+        std::cout << "Iteration " << iter << ": " << solution.values.sum()
+        << "\t(" << (100. * solution.values.sum() / initialValues.sum() - 100.) << "% improved)"
+        << "\tChange: " << maxDiff << std::endl;
+        maxDiff = 0.;
+        lastReport = iter;
+    };
+
     // 2. iterate to fixed point on quantity
-    int iter = 0;
     do {
         update();
 
@@ -108,13 +117,7 @@ Solution opec::solve(const Market& market) {
             actor.update(solution, q);
         }
 
-        // progress report
-        if (iter % 5000 == 0) {
-            std::cout << "Iteration " << iter << ": " << solution.values.sum()
-                      << "\t(" << (100. * solution.values.sum() / initialValues.sum() - 100.) << "% improved)"
-                      << "\tChange: " << maxDiff << std::endl;
-            maxDiff = 0.;
-        }
+        if (iter % 1000 == 0) report();
 
         // set quantity based on current prices
         for (int a = 0; a < market.size(); a++) {
@@ -168,15 +171,16 @@ Solution opec::solve(const Market& market) {
 
     } while (++iter <= 10000); //(diff.norm() > TerminationCondition);
 
+    report();
     verify(solution, market);
 
     return solution;
 }
 
 std::ostream& opec::operator<< (std::ostream& os, const opec::Solution& solution) {
-    os << "Prices:     " << std::endl << solution.prices.transpose() << std::endl
-       << "Inflated:   " << std::endl << Market::inflate(solution.prices).transpose() << std::endl            
-       << "Values:     " << std::endl << solution.values.transpose() << std::endl
+    os << std::setw(20) << "Prices: " << solution.prices.transpose() << std::endl
+       << std::setw(20) << "Inflated: " << Market::inflate(solution.prices).transpose() << std::endl            
+       << std::setw(20) << "Values: " << solution.values.transpose() << std::endl
        << "Quantities: " << std::endl << solution.quantities << std::endl;
     return os;
 }
