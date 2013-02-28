@@ -2,6 +2,12 @@
 
 using namespace opec;
 
+double Curve::derivative(double x) const {
+    // Centered difference approximation. O(Delta^2) error.
+    const double Delta = 0.25;
+    return (evaluate(x+Delta) - evaluate(x-Delta)) / (2 * Delta);
+}
+
 InterpolatingCurve::InterpolatingCurve(std::vector<double>&& _vy,
                                        std::vector<double>&& _vx)
         : vy(_vy), vx(_vx) {

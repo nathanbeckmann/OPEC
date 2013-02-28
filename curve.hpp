@@ -10,6 +10,7 @@ class Curve {
         virtual ~Curve() {}
         virtual double evaluate(double x) const = 0;
         virtual double integrate(double x) const = 0;
+        virtual double derivative(double x) const;
 };
 
 class ConstantCurve : public Curve {
