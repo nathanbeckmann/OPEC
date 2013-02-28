@@ -21,6 +21,7 @@ class Actor {
 
         double value(const RoundVector& quantity, const RoundVector& prices) const;
         RoundVector costs(const RoundVector& quantity) const;
+        virtual void update(Solution& solution, RowRoundVectorRef quantities) const;
 
         void isConstrained(const RoundVector& quantity) const;
 };

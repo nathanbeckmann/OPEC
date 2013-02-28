@@ -24,6 +24,11 @@ double Actor::value(const RoundVector& quantity, const RoundVector& prices) cons
     return v;
 }
 
+void Actor::update(Solution& solution, RowRoundVectorRef quantities) const {
+    // renormalize quantities to reserves
+    quantities *= reserves / quantities.sum();
+}
+
 void Actor::isConstrained(const RoundVector& quantity) const {
     for (int r = 0; r <= NumRounds; r++) {
         bool satisfied = 0. <= quantity(r) && quantity(r) <= capacity;
