@@ -2,10 +2,14 @@
 
 using namespace opec;
 
-double Market::price(int round, Vector quantity) const {
+double Market::price(int round, double quantity) const {
     auto& demand = world.demand(round);
-    auto production = quantity.sum();
-    return demand.evaluate(production);
+    return demand.evaluate(quantity);
+}
+
+double Market::dPrice(int round, double quantity) const {
+    auto& demand = world.demand(round);
+    return demand.derivative(quantity);
 }
 
 Vector Market::inflate(const Vector& prices) {
