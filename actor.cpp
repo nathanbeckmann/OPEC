@@ -45,10 +45,53 @@ void Actor::isConstrained(const RoundVector& quantity) const {
     }
 }
 
-RoundVector Actor::costs(const RoundVector& quantity) const {
-    RoundVector costs;
+// Marginal cost is trivial read off the supply function.
+// 
+RoundVector Actor::marginalCost(const RoundVector& quantity) const {
+    RoundVector mc;
     for (int r = 0; r <= NumRounds; r++) {
-        costs(r) = supply().evaluate(quantity(r));
+        mc(r) = supply().evaluate(quantity(r));
     }
-    return costs;
+    return mc;
+}
+
+// Compute the marginal revenue over all rounds for this actor, given
+// some prices, the actor's quantity, the market demand, and total
+// (OPEC) production in each round.
+//
+// Revenue for country 1 in any given round is:
+//
+// R1 = p q1
+//
+// Where p(q) = p(q1 + q1 + ... qN) is a function of total production.
+//
+// Therefore country 1's marginal revenue is given by:
+//
+// dR1   dp         dq1   dp
+// --- = --- q1 + p --- = --- q1 + p
+// dq1   dq1        dq1   dq1
+//
+// And by the chain rule
+//
+// dp    dp   dq    dp   d(q1+q2+...+qN)   dp
+// --- = -- x --- = -- x --------------- = --
+// dq1   dq   dq1   dq        dq1          dq
+//
+// Finally
+//
+// dR1   dp
+// --- = -- q1 + p
+// dq1   dq
+//
+bool debug;
+
+RoundVector Actor::marginalRevenue(const RoundVector& prices,
+                                   const RoundVector& quantity,
+                                   const Market& market,
+                                   const RoundVector& production) const {
+    RoundVector mr;
+    for (int r = 0; r <= NumRounds; r++) {
+        mr(r) = prices(r) + quantity(r) * market.dPrice(r, production(r));
+    }
+    return mr;
 }
