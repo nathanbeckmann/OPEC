@@ -63,8 +63,8 @@ Solution opec::solve(const Market& market) {
     Solution solution(market.size());
     Vector diff(market.size());
     double maxDiff = 0.;
-    const double Delta = 5.;
-    // const double TerminationCondition = 0.1;
+    const double Delta = 25.;
+    const double TerminationCondition = 0.001;
     int iter = 0, lastReport;
 
     // 1. Initial values
@@ -169,7 +169,7 @@ Solution opec::solve(const Market& market) {
             actor.isConstrained(q);
         }
 
-    } while (++iter <= 10000); //(diff.norm() > TerminationCondition);
+    } while ((++iter - lastReport) < 1000 || maxDiff > TerminationCondition);
 
     report();
     verify(solution, market);
