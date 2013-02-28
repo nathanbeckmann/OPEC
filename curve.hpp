@@ -33,7 +33,7 @@ class InterpolatingCurve : public Curve {
         double evaluate(double x) const;
         double integrate(double x) const;
     private:
-        std::vector<double> vy, vx;
+        std::vector<double> vy, vx, vdy;
 };
 
 }
