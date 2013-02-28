@@ -38,7 +38,9 @@ void verify(const Solution& solution, const Market& market) {
     for (int a = 0; a < market.size(); a++) {
         auto& actor = *market.actors[a];
         auto q = solution.quantities.row(a);
-        auto margin = Market::inflate(solution.prices - actor.costs(q));
+        auto margin = actor.marginalRevenue(solution.prices, q, market, solution.production);
+        margin -= actor.marginalCost(q);
+        margin = Market::inflate(margin);
     
         for (int r = 0; r < NumRounds; r++) {
             // if we aren't producing at quantity in this round, then
@@ -99,7 +101,9 @@ Solution opec::solveCournot(const Market& market) {
             // this vector points in the direction of greatest profit;
             // this is where we want to move. we need to scale the
             // prices to reflect inflation.
-            RoundVector margin = Market::inflate(solution.prices - actor.costs(q));
+            auto margin = actor.marginalRevenue(solution.prices, q, market, solution.production);
+            margin -= actor.marginalCost(q);
+            margin = Market::inflate(margin);
             
             RoundVector step = project(margin).normalized() * Delta;
             assert(feq(step.sum(), 0.)); // we're moving along a constant constraint; the net change must be zero
