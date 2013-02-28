@@ -79,10 +79,9 @@ Solution opec::solve(const Market& market) {
             solution.production(r) = solution.quantities.col(r).sum();
         }
 
-        for (int r = 0; r < NumRounds; r++) {
+        for (int r = 0; r <= NumRounds; r++) {
             solution.prices(r) = market.price(r, solution.production(r));
         }
-        solution.prices(NumRounds) = SellOffPrice;
 
         for (int a = 0; a < market.size(); a++) {
             auto& actor = *market.actors[a];

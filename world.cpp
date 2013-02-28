@@ -32,9 +32,12 @@ World::World() {
         highOPECProduction[i] = highWorldProduction[i] - highROWProduction[i];
     }
     highResidualDemand = new InterpolatingCurve(makeVec(highPrices), makeVec(highOPECProduction));
+
+    sellOffDemand = new ConstantCurve(SellOffPrice);
 }
 
 World::~World() {
-    delete lowResidualDemand;
+    delete sellOffDemand;
     delete highResidualDemand;
+    delete lowResidualDemand;
 }
