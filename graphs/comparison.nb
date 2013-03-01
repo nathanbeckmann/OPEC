@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       157,          7]
-NotebookDataLength[    139007,       3445]
-NotebookOptionsPosition[    137201,       3380]
-NotebookOutlinePosition[    137547,       3395]
-CellTagsIndexPosition[    137504,       3392]
+NotebookDataLength[    139113,       3447]
+NotebookOptionsPosition[    137307,       3382]
+NotebookOutlinePosition[    137653,       3397]
+CellTagsIndexPosition[    137610,       3394]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -900,8 +900,8 @@ Cell[BoxData[
            RectangleBox[{2.5454545454545454`, 0.}, {3.4545454545454546`, 
             3.58568*^6}, "RoundingRadius" -> 0]},
           
-          ImageSizeCache->{{133.85391741662258`, 175.6164902064585}, {
-           42.498194940844336`, 102.14679026415932`}}],
+          ImageSizeCache->{{134.10391741662258`, 175.3664902064585}, {
+           42.748194940844336`, 101.89679026415932`}}],
          StatusArea[#, 3.58568*^6]& ,
          TagBoxNote->"3.58568*^6"],
         StyleBox["3.58568`*^6", {
@@ -2913,16 +2913,18 @@ Cell[BoxData[
  RowBox[{"PieChart", "[", 
   RowBox[{"rents", ",", 
    RowBox[{"ChartLabels", "\[Rule]", "names"}], ",", 
-   RowBox[{"PlotLabel", "\[Rule]", "\"\<Rents\>\""}]}], "]"}]], "Input",
- CellChangeTimes->{{3.571156792629881*^9, 3.5711568110269327`*^9}}],
+   RowBox[{"PlotLabel", "\[Rule]", "\"\<Gains from Collusion\>\""}]}], 
+  "]"}]], "Input",
+ CellChangeTimes->{{3.571156792629881*^9, 3.5711568110269327`*^9}, {
+  3.571156994813445*^9, 3.571156997919623*^9}}],
 
 Cell[BoxData[
  GraphicsBox[{{{}, {}}, {}, 
-   DynamicModuleBox[{DynamicChart`click$5256$5308 = False, 
-    DynamicChart`click$5260$5308 = False, DynamicChart`click$5264$5308 = 
-    False, DynamicChart`click$5268$5308 = False, 
-    DynamicChart`click$5272$5308 = False, DynamicChart`click$5276$5308 = 
-    False, DynamicChart`click$5280$5308 = False}, {
+   DynamicModuleBox[{DynamicChart`click$5331$5383 = False, 
+    DynamicChart`click$5335$5383 = False, DynamicChart`click$5339$5383 = 
+    False, DynamicChart`click$5343$5383 = False, 
+    DynamicChart`click$5347$5383 = False, DynamicChart`click$5351$5383 = 
+    False, DynamicChart`click$5355$5383 = False}, {
      {RGBColor[0.5, 0.5, 1.], EdgeForm[GrayLevel[0.5]], {
        {RGBColor[0.66, 0.7960000000000002, 1.], 
         {RGBColor[0.66, 0.7960000000000002, 1.], EdgeForm[GrayLevel[0.5]], 
@@ -2952,11 +2954,11 @@ Cell[BoxData[
                GrayLevel[0]}], "Tooltip"]& ],
            
            EventHandlerTag[{
-            "MouseClicked" :> FEPrivate`Set[DynamicChart`click$5256$5308, 
-               FEPrivate`Not[DynamicChart`click$5256$5308]], PassEventsDown -> 
+            "MouseClicked" :> FEPrivate`Set[DynamicChart`click$5331$5383, 
+               FEPrivate`Not[DynamicChart`click$5331$5383]], PassEventsDown -> 
              True, PassEventsDown -> Automatic, PassEventsUp -> True}]], 
           Dynamic[If[
-           DynamicChart`click$5256$5308, {{{1., 0.}, {0., 
+           DynamicChart`click$5331$5383, {{{1., 0.}, {0., 
              1.}}, {-0.04234446753906895, 0.19546597163913912`}}, {{1, 0}, {0,
              1}}, {{1, 0}, {0, 1}}]]]}, 
         {RGBColor[0.66, 1., 1.], EdgeForm[GrayLevel[0.5]], 
@@ -2987,11 +2989,11 @@ Cell[BoxData[
                GrayLevel[0]}], "Tooltip"]& ],
            
            EventHandlerTag[{
-            "MouseClicked" :> FEPrivate`Set[DynamicChart`click$5260$5308, 
-               FEPrivate`Not[DynamicChart`click$5260$5308]], PassEventsDown -> 
+            "MouseClicked" :> FEPrivate`Set[DynamicChart`click$5335$5383, 
+               FEPrivate`Not[DynamicChart`click$5335$5383]], PassEventsDown -> 
              True, PassEventsDown -> Automatic, PassEventsUp -> True}]], 
           Dynamic[If[
-           DynamicChart`click$5260$5308, {{{1., 0.}, {0., 1.}}, {
+           DynamicChart`click$5335$5383, {{{1., 0.}, {0., 1.}}, {
              0.19979786715794645`, 0.00898956501370271}}, {{1, 0}, {0, 1}}, {{
             1, 0}, {0, 1}}]]]}, 
         {RGBColor[0.66, 1., 0.796], EdgeForm[GrayLevel[0.5]], 
@@ -3022,11 +3024,11 @@ Cell[BoxData[
                GrayLevel[0]}], "Tooltip"]& ],
            
            EventHandlerTag[{
-            "MouseClicked" :> FEPrivate`Set[DynamicChart`click$5264$5308, 
-               FEPrivate`Not[DynamicChart`click$5264$5308]], PassEventsDown -> 
+            "MouseClicked" :> FEPrivate`Set[DynamicChart`click$5339$5383, 
+               FEPrivate`Not[DynamicChart`click$5339$5383]], PassEventsDown -> 
              True, PassEventsDown -> Automatic, PassEventsUp -> True}]], 
           Dynamic[If[
-           DynamicChart`click$5264$5308, {{{1., 0.}, {0., 1.}}, {
+           DynamicChart`click$5339$5383, {{{1., 0.}, {0., 1.}}, {
              0.15606158266342823`, -0.12507910463616997`}}, {{1, 0}, {0, 
             1}}, {{1, 0}, {0, 1}}]]]}, 
         {RGBColor[0.7280000000000001, 1., 0.66], EdgeForm[GrayLevel[0.5]], 
@@ -3055,11 +3057,11 @@ Cell[BoxData[
                GrayLevel[0]}], "Tooltip"]& ],
            
            EventHandlerTag[{
-            "MouseClicked" :> FEPrivate`Set[DynamicChart`click$5268$5308, 
-               FEPrivate`Not[DynamicChart`click$5268$5308]], PassEventsDown -> 
+            "MouseClicked" :> FEPrivate`Set[DynamicChart`click$5343$5383, 
+               FEPrivate`Not[DynamicChart`click$5343$5383]], PassEventsDown -> 
              True, PassEventsDown -> Automatic, PassEventsUp -> True}]], 
           Dynamic[If[
-           DynamicChart`click$5268$5308, {{{1., 0.}, {0., 1.}}, {
+           DynamicChart`click$5343$5383, {{{1., 0.}, {0., 1.}}, {
              0.055765300729553026`, -0.1920682983590538}}, {{1, 0}, {0, 
             1}}, {{1, 0}, {0, 1}}]]]}, 
         {RGBColor[0.932, 1., 0.66], EdgeForm[GrayLevel[0.5]], 
@@ -3090,11 +3092,11 @@ Cell[BoxData[
                GrayLevel[0]}], "Tooltip"]& ],
            
            EventHandlerTag[{
-            "MouseClicked" :> FEPrivate`Set[DynamicChart`click$5272$5308, 
-               FEPrivate`Not[DynamicChart`click$5272$5308]], PassEventsDown -> 
+            "MouseClicked" :> FEPrivate`Set[DynamicChart`click$5347$5383, 
+               FEPrivate`Not[DynamicChart`click$5347$5383]], PassEventsDown -> 
              True, PassEventsDown -> Automatic, PassEventsUp -> True}]], 
           Dynamic[If[
-           DynamicChart`click$5272$5308, {{{1., 0.}, {0., 
+           DynamicChart`click$5347$5383, {{{1., 0.}, {0., 
              1.}}, {-0.03036148335079831, -0.19768201822305234`}}, {{1, 0}, {
             0, 1}}, {{1, 0}, {0, 1}}]]]}, 
         {RGBColor[1., 0.864, 0.66], EdgeForm[GrayLevel[0.5]], 
@@ -3124,11 +3126,11 @@ Cell[BoxData[
                GrayLevel[0]}], "Tooltip"]& ],
            
            EventHandlerTag[{
-            "MouseClicked" :> FEPrivate`Set[DynamicChart`click$5276$5308, 
-               FEPrivate`Not[DynamicChart`click$5276$5308]], PassEventsDown -> 
+            "MouseClicked" :> FEPrivate`Set[DynamicChart`click$5351$5383, 
+               FEPrivate`Not[DynamicChart`click$5351$5383]], PassEventsDown -> 
              True, PassEventsDown -> Automatic, PassEventsUp -> True}]], 
           Dynamic[If[
-           DynamicChart`click$5276$5308, {{{1., 0.}, {0., 
+           DynamicChart`click$5351$5383, {{{1., 0.}, {0., 
              1.}}, {-0.14237903495722565`, -0.14045714793006842`}}, {{1, 0}, {
             0, 1}}, {{1, 0}, {0, 1}}]]]}, 
         {RGBColor[1., 0.66, 0.66], EdgeForm[GrayLevel[0.5]], 
@@ -3159,11 +3161,11 @@ Cell[BoxData[
                GrayLevel[0]}], "Tooltip"]& ],
            
            EventHandlerTag[{
-            "MouseClicked" :> FEPrivate`Set[DynamicChart`click$5280$5308, 
-               FEPrivate`Not[DynamicChart`click$5280$5308]], PassEventsDown -> 
+            "MouseClicked" :> FEPrivate`Set[DynamicChart`click$5355$5383, 
+               FEPrivate`Not[DynamicChart`click$5355$5383]], PassEventsDown -> 
              True, PassEventsDown -> Automatic, PassEventsUp -> True}]], 
           Dynamic[If[
-           DynamicChart`click$5280$5308, {{{1., 0.}, {0., 
+           DynamicChart`click$5355$5383, {{{1., 0.}, {0., 
              1.}}, {-0.19775302528676098`, -0.02989550116545425}}, {{1, 0}, {
             0, 1}}, {{1, 0}, {0, 1}}]]]}}, {}}, {}}, {{{
         GeometricTransformationBox[
@@ -3189,11 +3191,11 @@ Cell[BoxData[
               GrayLevel[0]}], "Tooltip"]& ],
           
           EventHandlerTag[{
-           "MouseClicked" :> FEPrivate`Set[DynamicChart`click$5256$5308, 
-              FEPrivate`Not[DynamicChart`click$5256$5308]], PassEventsDown -> 
+           "MouseClicked" :> FEPrivate`Set[DynamicChart`click$5331$5383, 
+              FEPrivate`Not[DynamicChart`click$5331$5383]], PassEventsDown -> 
             True, PassEventsDown -> Automatic, PassEventsUp -> True}]], 
          Dynamic[If[
-          DynamicChart`click$5256$5308, {{{1., 0.}, {0., 
+          DynamicChart`click$5331$5383, {{{1., 0.}, {0., 
             1.}}, {-0.04234446753906895, 0.19546597163913912`}}, {{1, 0}, {0, 
            1}}, {{1, 0}, {0, 1}}]]], GeometricTransformationBox[
          TagBox[
@@ -3218,11 +3220,11 @@ Cell[BoxData[
               GrayLevel[0]}], "Tooltip"]& ],
           
           EventHandlerTag[{
-           "MouseClicked" :> FEPrivate`Set[DynamicChart`click$5260$5308, 
-              FEPrivate`Not[DynamicChart`click$5260$5308]], PassEventsDown -> 
+           "MouseClicked" :> FEPrivate`Set[DynamicChart`click$5335$5383, 
+              FEPrivate`Not[DynamicChart`click$5335$5383]], PassEventsDown -> 
             True, PassEventsDown -> Automatic, PassEventsUp -> True}]], 
          Dynamic[If[
-          DynamicChart`click$5260$5308, {{{1., 0.}, {0., 1.}}, {
+          DynamicChart`click$5335$5383, {{{1., 0.}, {0., 1.}}, {
             0.19979786715794645`, 0.00898956501370271}}, {{1, 0}, {0, 1}}, {{
            1, 0}, {0, 1}}]]], GeometricTransformationBox[
          TagBox[
@@ -3247,11 +3249,11 @@ Cell[BoxData[
               GrayLevel[0]}], "Tooltip"]& ],
           
           EventHandlerTag[{
-           "MouseClicked" :> FEPrivate`Set[DynamicChart`click$5264$5308, 
-              FEPrivate`Not[DynamicChart`click$5264$5308]], PassEventsDown -> 
+           "MouseClicked" :> FEPrivate`Set[DynamicChart`click$5339$5383, 
+              FEPrivate`Not[DynamicChart`click$5339$5383]], PassEventsDown -> 
             True, PassEventsDown -> Automatic, PassEventsUp -> True}]], 
          Dynamic[If[
-          DynamicChart`click$5264$5308, {{{1., 0.}, {0., 1.}}, {
+          DynamicChart`click$5339$5383, {{{1., 0.}, {0., 1.}}, {
             0.15606158266342823`, -0.12507910463616997`}}, {{1, 0}, {0, 
            1}}, {{1, 0}, {0, 1}}]]], GeometricTransformationBox[
          TagBox[
@@ -3276,11 +3278,11 @@ Cell[BoxData[
               GrayLevel[0]}], "Tooltip"]& ],
           
           EventHandlerTag[{
-           "MouseClicked" :> FEPrivate`Set[DynamicChart`click$5268$5308, 
-              FEPrivate`Not[DynamicChart`click$5268$5308]], PassEventsDown -> 
+           "MouseClicked" :> FEPrivate`Set[DynamicChart`click$5343$5383, 
+              FEPrivate`Not[DynamicChart`click$5343$5383]], PassEventsDown -> 
             True, PassEventsDown -> Automatic, PassEventsUp -> True}]], 
          Dynamic[If[
-          DynamicChart`click$5268$5308, {{{1., 0.}, {0., 1.}}, {
+          DynamicChart`click$5343$5383, {{{1., 0.}, {0., 1.}}, {
             0.055765300729553026`, -0.1920682983590538}}, {{1, 0}, {0, 1}}, {{
            1, 0}, {0, 1}}]]], GeometricTransformationBox[
          TagBox[
@@ -3305,11 +3307,11 @@ Cell[BoxData[
               GrayLevel[0]}], "Tooltip"]& ],
           
           EventHandlerTag[{
-           "MouseClicked" :> FEPrivate`Set[DynamicChart`click$5272$5308, 
-              FEPrivate`Not[DynamicChart`click$5272$5308]], PassEventsDown -> 
+           "MouseClicked" :> FEPrivate`Set[DynamicChart`click$5347$5383, 
+              FEPrivate`Not[DynamicChart`click$5347$5383]], PassEventsDown -> 
             True, PassEventsDown -> Automatic, PassEventsUp -> True}]], 
          Dynamic[If[
-          DynamicChart`click$5272$5308, {{{1., 0.}, {0., 
+          DynamicChart`click$5347$5383, {{{1., 0.}, {0., 
             1.}}, {-0.03036148335079831, -0.19768201822305234`}}, {{1, 0}, {0,
             1}}, {{1, 0}, {0, 1}}]]], GeometricTransformationBox[
          TagBox[
@@ -3334,11 +3336,11 @@ Cell[BoxData[
               GrayLevel[0]}], "Tooltip"]& ],
           
           EventHandlerTag[{
-           "MouseClicked" :> FEPrivate`Set[DynamicChart`click$5276$5308, 
-              FEPrivate`Not[DynamicChart`click$5276$5308]], PassEventsDown -> 
+           "MouseClicked" :> FEPrivate`Set[DynamicChart`click$5351$5383, 
+              FEPrivate`Not[DynamicChart`click$5351$5383]], PassEventsDown -> 
             True, PassEventsDown -> Automatic, PassEventsUp -> True}]], 
          Dynamic[If[
-          DynamicChart`click$5276$5308, {{{1., 0.}, {0., 
+          DynamicChart`click$5351$5383, {{{1., 0.}, {0., 
             1.}}, {-0.14237903495722565`, -0.14045714793006842`}}, {{1, 0}, {
            0, 1}}, {{1, 0}, {0, 1}}]]], GeometricTransformationBox[
          TagBox[
@@ -3363,19 +3365,19 @@ Cell[BoxData[
               GrayLevel[0]}], "Tooltip"]& ],
           
           EventHandlerTag[{
-           "MouseClicked" :> FEPrivate`Set[DynamicChart`click$5280$5308, 
-              FEPrivate`Not[DynamicChart`click$5280$5308]], PassEventsDown -> 
+           "MouseClicked" :> FEPrivate`Set[DynamicChart`click$5355$5383, 
+              FEPrivate`Not[DynamicChart`click$5355$5383]], PassEventsDown -> 
             True, PassEventsDown -> Automatic, PassEventsUp -> True}]], 
          Dynamic[If[
-          DynamicChart`click$5280$5308, {{{1., 0.}, {0., 
+          DynamicChart`click$5355$5383, {{{1., 0.}, {0., 
             1.}}, {-0.19775302528676098`, -0.02989550116545425}}, {{1, 0}, {0,
             1}}, {{1, 0}, {0, 1}}]]]}, {}}, {}}},
     DynamicModuleValues:>{}], {}, {{{}, {}, {}, {}}, {}}},
   ContentSelectable->False,
-  PlotLabel->FormBox["\"Rents\"", TraditionalForm],
+  PlotLabel->FormBox["\"Gains from Collusion\"", TraditionalForm],
   PlotRange->{{-1.2, 1.2}, {-1.2, 1.2}},
   PlotRangePadding->Scaled[0.02]]], "Output",
- CellChangeTimes->{3.5711568115979657`*^9}]
+ CellChangeTimes->{3.5711568115979657`*^9, 3.5711569985466585`*^9}]
 }, Open  ]]
 },
 WindowSize->{707, 817},
@@ -3444,8 +3446,8 @@ Cell[117091, 2896, 161, 3, 31, "Input"],
 Cell[117255, 2901, 218, 5, 30, "Output"]
 }, Open  ]],
 Cell[CellGroupData[{
-Cell[117510, 2911, 260, 5, 31, "Input"],
-Cell[117773, 2918, 19412, 459, 390, "Output"]
+Cell[117510, 2911, 327, 7, 31, "Input"],
+Cell[117840, 2920, 19451, 459, 390, "Output"]
 }, Open  ]]
 }
 ]
