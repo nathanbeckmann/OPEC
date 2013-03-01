@@ -15,15 +15,24 @@ class Curve {
 
 class ConstantCurve : public Curve {
     public:
-        ConstantCurve(double _q) : q(_q) {}
-        double evaluate(double x) const { return q; }
-        double integrate(double x) const { return q * x; }
+        ConstantCurve(double _y) : y(_y) {}
+        double evaluate(double x) const { return y; }
+        double integrate(double x) const { return y * x; }
     private:
-        double q;
+        double y;
 };
 
 class PiecewiseCurve : public Curve {
-        // ...
+    public:
+        void add(double y, double length);
+        double evaluate(double x) const;
+        double integrate(double x) const;
+
+        struct Piece {
+                double y;
+                double length;
+        };
+        std::vector<Piece> pieces;
 };
 
 class InterpolatingCurve : public Curve {

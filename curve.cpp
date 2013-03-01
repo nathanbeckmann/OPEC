@@ -12,6 +12,44 @@ double Curve::derivative(double x) const {
     return (evaluate(x+Delta) - evaluate(x-Delta)) / (2 * Delta);
 }
 
+// Simple piecewise-constant curve.
+void PiecewiseCurve::add(double y, double length) {
+    Piece p{y, length};
+
+    auto i = pieces.begin();
+    for (; i != pieces.end(); i++) {
+        if (i->y > p.y) break;
+    }
+
+    pieces.insert(i, p);
+}
+
+double PiecewiseCurve::evaluate(double x) const {
+    auto i = pieces.begin();
+    for (; i != pieces.end(); i++) {
+        if (x <= i->length) break;
+        x -= i->length;
+    }
+    if (i == pieces.end()) --i;
+
+    return i->y;
+}
+
+double PiecewiseCurve::integrate(double x) const {
+    double y = 0.;
+    
+    auto i = pieces.begin();
+    for (; i != pieces.end(); i++) {
+        if (x <= i->length) break;
+        x -= i->length;
+        y += i->y * i->length;
+    }
+    if (i == pieces.end()) --i;
+    y += i->y * x;
+
+    return y;
+}
+
 // We use a cubic spline to interpolate values. This is necessary to
 // smooth the derivative, because marginal revenue depends on the
 // derivative of the demand curve. If the derivative is
