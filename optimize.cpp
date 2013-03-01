@@ -69,7 +69,7 @@ Solution opec::solve(const Market& market) {
     Solution solution(market.size());
     Vector diff(market.size());
     double maxDiff = 0.;
-    int iter = 0, lastReport;
+    int iter = 0, lastReport = 0;
 
     // 1. Initial values
     for (int a = 0; a < market.size(); a++) {
@@ -103,10 +103,12 @@ Solution opec::solve(const Market& market) {
     update();
     auto initialValues = solution.values;
 
-    auto report = [&] () {
-        std::cout << "Iteration " << iter << ": " << solution.values.sum()
-        << "\t(" << (100. * solution.values.sum() / initialValues.sum() - 100.) << "% improved)"
-        << "\tChange: " << maxDiff << std::endl;
+    auto report = [&] (bool output=false) {
+        if (iter == 0 || output) {
+            std::cout << "Iteration " << iter << ": " << solution.values.sum()
+            << "\t(" << (100. * solution.values.sum() / initialValues.sum() - 100.) << "% improved)"
+            << "\tChange: " << maxDiff << std::endl;
+        }
         maxDiff = 0.;
         lastReport = iter;
     };
@@ -176,7 +178,7 @@ Solution opec::solve(const Market& market) {
     } while ((++iter < TerminationIterations)
              && ((iter - lastReport) < TerminationQuantum || maxDiff > TerminationCondition));
 
-    report();
+    report(true);
     verify(solution, market);
 
     return solution;
