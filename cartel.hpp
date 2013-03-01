@@ -6,13 +6,29 @@ namespace opec {
 
 class Cartel : public Actor {
     public:
-        Cartel(string name) : Actor(name) {}
+        Cartel(string name, const std::vector<Actor*>& _actors, Solution& _competitiveSolution);
 
-        void add(Country& country);
-        Curve& supply() { return piecewise; }
+        std::vector<Actor*> actors;
+
+        void update(Solution& solution, RowRoundVectorRef production);
+        void dump(const Solution& solution) const;
+
+        const Curve& supply(int round) const { return piecewise[round]; }
+        const RoundMatrix& fullQuantities() const { return quantities; }
+
+        int size() const { return (int)actors.size(); }
 
     private:
-        PiecewiseCurve piecewise;
+        void greedyQuantities(const RowRoundVectorRef production);
+        void preserveConstraints(const RowRoundVectorRef production);
+        void verifyQuantities(const RowRoundVectorRef production) const;
+        
+        std::vector<PiecewiseCurve> piecewise;
+        RoundMatrix quantities;
+        Solution& competitiveSolution;
+        Vector actorReserves;
+        Vector actorCapacity;
+
 };
 
 }
