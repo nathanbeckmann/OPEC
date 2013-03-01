@@ -8,10 +8,10 @@ namespace opec {
 
 class Market {
     public:
-        Market(std::vector<const Actor*>&& _actors) : actors(_actors) {}
+        Market(std::vector<Actor*> _actors) : actors(_actors) {}
 
         int size() const { return actors.size(); }
-        std::vector<const Actor*> actors;
+        std::vector<Actor*> actors;
 
         double price(int round, double quantity) const;
         double dPrice(int round, double quantity) const;
