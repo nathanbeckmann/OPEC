@@ -4,6 +4,9 @@ using namespace opec;
 
 namespace {
 
+#ifdef USE_CUBIC_SPLINE
+// Data computed from raw data, with a little magic to make the
+// function monotone decreasing.
 double lowPrices[] = {145.43, 145.21, 134.41, 121.29, 114.24, 107.88, 103.73, 94.62, 86.70, 75.07, 73.26, 67.35};
 double lowOPECProduction[] = {14521, 15127, 15867, 18401, 19969, 22473, 24368, 25690, 29510, 30766, 32504, 34345};
 // double lowROWProduction[] = {46919, 46956, 46902, 46093, 46054, 45296, 45284, 44516, 44020, 43774, 43754, 43157};
@@ -19,12 +22,22 @@ const int NumEntries = sizeof(highPrices) / sizeof(highPrices[0]);
 std::vector<double> makeVec(double* array) {
     return std::vector<double>(&array[0], &array[NumEntries]);
 }
+#else
+// linear coefficients come from a best fit in Mathematica 8
+double lowLinearFitCoefficients[] = {199.778, -0.00400705};
+double highLinearFitCoefficients[] = {214.151, -0.00366614};
+#endif
 
 }
 
 World::World() {
+#ifdef USE_CUBIC_SPLINE
     lowResidualDemand = new InterpolatingCurve(makeVec(lowPrices), makeVec(lowOPECProduction));
     highResidualDemand = new InterpolatingCurve(makeVec(highPrices), makeVec(highOPECProduction));
+#else
+    lowResidualDemand = new LinearCurve(lowLinearFitCoefficients[1], lowLinearFitCoefficients[0]);
+    highResidualDemand = new LinearCurve(highLinearFitCoefficients[1], highLinearFitCoefficients[0]);
+#endif
     sellOffDemand = new ConstantCurve(SellOffPrice);
 }
 

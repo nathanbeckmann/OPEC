@@ -2,6 +2,8 @@
 
 #include "actor.hpp"
 
+// #define USE_CUBIC_SPLINE
+
 namespace opec {
 
 class World {
@@ -20,8 +22,13 @@ class World {
         }
 
     private:
+#ifdef USE_CUBIC_SPLINE
         InterpolatingCurve* lowResidualDemand;
         InterpolatingCurve* highResidualDemand;
+#else
+        LinearCurve* highResidualDemand;
+        LinearCurve* lowResidualDemand;
+#endif
         ConstantCurve* sellOffDemand;
 };
 
