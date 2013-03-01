@@ -85,24 +85,22 @@ void Cartel::update(Solution& solution, RowRoundVectorRef production) {
     simpleQuantities(production);
 
 #if 0
-    auto PM = value(production, solution.prices);
+    auto PM = value(production, solution.prices).sum();
     auto PC = competitiveSolution.values.sum();
-    auto Alpha = PM / PC;
 
     RoundMatrix ar(size(), NumRounds+1);
     Vector tgtAr(size());
 
     // Iteratively compute actual AR and target AR, then re-assign
-    // quantity quantity within a round (keeping production
-    // constant). This is done by moving in the direction of equal ar
-    // by a fixed delta.
-    auto refresh = [&] () {
+    // quantity within a round (keeping production constant). This is
+    // done by moving in the direction of equal ar by a fixed delta.
+    for (int i = 0; i < 100; i++) {
         for (int a = 0; a < size(); a++) {
             auto& actor = *actors[a];
-            auto q = quantities.row(a);
-            assert(q.sum() == actor.reserves);
+            Vector q = quantities.row(a);
+            assert(feq(q.sum(), actor.reserves));
 
-            auto pm = actor.value(d, solution.prices);
+            auto pm = actor.value(q, solution.prices);
             ar.row(a) = pm.array() / q.array();
 
             auto pc = competitiveSolution.values(a);
@@ -111,14 +109,15 @@ void Cartel::update(Solution& solution, RowRoundVectorRef production) {
             auto tgtPm = beta * PM;
             tgtAr(a) = tgtPm / actor.reserves;
         }
-    };
 
-    for (int i = 0; i < 1000; i++) {
-        RoundMatrix dir(size(), NumRounds+1);
-
+        for (int a = 0; a < size(); a++) {
+            Vector dir = ar.row(a).array() - tgtAr(a);
+            dir /= dir.sum();
+            quantities.row(a) += 10. * dir;
+        }
         
+        preserveConstraints(production);
     }
-    refresh();
 #endif
 
     // validate constraints
