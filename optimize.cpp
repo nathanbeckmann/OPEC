@@ -50,7 +50,7 @@ void verify(const Solution& solution, const Market& market) {
             if (q(r) < actor.capacity) {
                 for (int s = 0; s < NumRounds; s++) {
                     assert(q(s) == actor.capacity ||
-                           margin(s) <= 1.05 * margin(r));
+                           std::abs(margin(s)) <= std::abs(1.05 * margin(r)));
                 }
             }
         }
@@ -61,7 +61,7 @@ void verify(const Solution& solution, const Market& market) {
 
 Solution opec::solve(const Market& market) {
     const double Delta = 25.;
-    const double TerminationCondition = 100;
+    const double TerminationCondition = .01;
     const int ReportInterval = 1000;
     const int TerminationQuantum = 1000;
     const int TerminationIterations = 100000;
