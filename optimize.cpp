@@ -24,14 +24,14 @@ using namespace opec;
 // step is re-projected onto the plane in the unconstrained dimensions
 // to keep the reserve constraint.
 
-namespace {
+RoundVector opec::roundOrthogonal = RoundVector::Constant(1.).normalized();
 
-RoundVector roundOrthogonal = RoundVector::Constant(1.).normalized();
-
-Vector project(const Vector& v, const Vector& onto = roundOrthogonal) {
+Vector opec::project(const Vector& v, const Vector& onto) {
     auto rejection = v.dot(onto) * onto;
     return v - rejection;
 }
+
+namespace {
 
 void verify(const Solution& solution, const Market& market) {
     // check that no country can make a beneficial trade, within a

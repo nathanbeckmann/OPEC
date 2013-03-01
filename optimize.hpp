@@ -13,6 +13,9 @@ typedef Eigen::Block<RoundMatrix, 1, NumRounds+1> RowRoundVectorRef;
 typedef Eigen::VectorXd Vector;
 typedef Eigen::MatrixXd Matrix;
 
+extern RoundVector roundOrthogonal;
+Vector project(const Vector& v, const Vector& onto = roundOrthogonal);
+
 class Market;
 
 struct Solution {
