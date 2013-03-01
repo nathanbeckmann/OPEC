@@ -35,6 +35,18 @@ class PiecewiseCurve : public Curve {
         std::vector<Piece> pieces;
 };
 
+class LinearCurve : public Curve {
+    public:
+        // y = ax + b
+        LinearCurve(double _a, double _b);
+
+        double evaluate(double x) const;
+        double integrate(double x) const;
+
+    private:
+        double a, b;
+};
+
 class InterpolatingCurve : public Curve {
     public:
         InterpolatingCurve(std::vector<double>&& _vy,

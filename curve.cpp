@@ -50,6 +50,19 @@ double PiecewiseCurve::integrate(double x) const {
     return y;
 }
 
+LinearCurve::LinearCurve(double _a, double _b)
+        : a(_a)
+        , b(_b) {
+}
+
+double LinearCurve::evaluate(double x) const {
+    return a * x + b;
+}
+
+double LinearCurve::integrate(double x) const {
+    return (b + a * x / 2.) * x;
+}
+
 // We use a cubic spline to interpolate values. This is necessary to
 // smooth the derivative, because marginal revenue depends on the
 // derivative of the demand curve. If the derivative is
