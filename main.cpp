@@ -1,21 +1,12 @@
 #include <iomanip>
 #include "optimize.hpp"
 #include "opec.hpp"
+#include "cartel.hpp"
 #include "debug.hpp"
 
 using namespace opec;
 
-int main() {
-    std::vector<const Actor*> actors;
-    for (int c = 0; c < Opec::NumCountries; c++) {
-        actors.push_back(&opec::opec[c]);
-    }
-    
-    Market market(std::move(actors));
-    
-    auto solution = solve(market);
-
-    std::cout << "\n\nDone!\n\n";
+void dump(const Market& market, const Solution& solution) {
     std::cout << std::setw(20) << "Countries: ";
     for (auto actor : market.actors) {
         std::cout << actor->name << ", ";
@@ -33,6 +24,24 @@ int main() {
 
         std::cout << std::setw(18) << actor.name << ": " << margin.transpose() << std::endl;
     }
+}
+
+int main() {
+    std::vector<Actor*> countries;
+    for (int c = 0; c < Opec::NumCountries; c++) {
+        countries.push_back(&opec::opec[c]);
+    }
+    
+    Market competitive(countries);
+    auto competitiveSolution = solve(competitive);
+    dump(competitive, competitiveSolution);
+
+    Cartel opec("Opec", countries, competitiveSolution);
+    std::vector<Actor*> opecv{&opec};
+    Market monopoly(opecv);
+    auto monopolySolution = solve(monopoly);
+    dump(monopoly, monopolySolution);
+    opec.dump(monopolySolution);
 
     return 0;
 }
