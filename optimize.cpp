@@ -89,7 +89,7 @@ Solution opec::solve(const Market& market) {
             auto& actor = *market.actors[a];
             auto q = solution.quantities.row(a);
             double prevValue = solution.values(a);
-            solution.values(a) = actor.value(q, solution.prices);
+            solution.values(a) = actor.value(q, solution.prices).sum();
             diff(a) = solution.values(a) - prevValue;
         }
 

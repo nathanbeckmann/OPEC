@@ -5,8 +5,8 @@
 
 using namespace opec;
 
-double Actor::value(const RoundVector& quantity, const RoundVector& prices) const {
-    double v = 0.;
+RoundVector Actor::value(const RoundVector& quantity, const RoundVector& prices) const {
+    RoundVector v;
     double res = reserves;
 
     for (int r = 0; r < NumRounds; r++) {
@@ -14,18 +14,18 @@ double Actor::value(const RoundVector& quantity, const RoundVector& prices) cons
         assert(q <= 1.01 * capacity);
         assert(q <= 1.01 * res);
         
-        v += prices(r) * q - supply().integrate(q);
-        v *= InterestRate;
+        v(r) = prices(r) * q - supply(r).integrate(q);
 
         res -= q;
     }
+    v(NumRounds) = quantity(NumRounds) * SellOffPrice;
 
-    v += quantity(NumRounds) * SellOffPrice;
+    v = Market::inflate(v);
 
     return v;
 }
 
-void Actor::update(Solution& solution, RowRoundVectorRef quantities) const {
+void Actor::update(Solution& solution, RowRoundVectorRef quantities) {
     // renormalize quantities to reserves
     quantities *= reserves / quantities.sum();
 }
@@ -50,7 +50,7 @@ void Actor::isConstrained(const RoundVector& quantity) const {
 RoundVector Actor::marginalCost(const RoundVector& quantity) const {
     RoundVector mc;
     for (int r = 0; r <= NumRounds; r++) {
-        mc(r) = supply().evaluate(quantity(r));
+        mc(r) = supply(r).evaluate(quantity(r));
     }
     return mc;
 }

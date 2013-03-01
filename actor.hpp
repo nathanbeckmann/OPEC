@@ -16,12 +16,10 @@ class Actor {
         const string name;
         int reserves;
         int capacity;
-        virtual Curve& supply() = 0;
-        const Curve& supply() const { return const_cast<Actor*>(this)->supply(); }
 
-        virtual void update(Solution& solution, RowRoundVectorRef quantities) const;
+        virtual void update(Solution& solution, RowRoundVectorRef quantities);
 
-        double value(const RoundVector& quantity, const RoundVector& prices) const;
+        RoundVector value(const RoundVector& quantity, const RoundVector& prices) const;
         RoundVector marginalCost(const RoundVector& quantity) const;
         RoundVector marginalRevenue(const RoundVector& prices,
                                     const RoundVector& quantity,
@@ -29,6 +27,8 @@ class Actor {
                                     const RoundVector& production) const;
         
         void isConstrained(const RoundVector& quantity) const;
+
+        virtual const Curve& supply(int round) const = 0;
 };
 
 }

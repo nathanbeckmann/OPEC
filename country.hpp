@@ -15,8 +15,8 @@ class Country : public Actor {
             reserves = _reserves;
             capacity = _capacity;
         }
-        
-        Curve& supply() { return marginalCost; }
+
+        const Curve& supply(int round) const { return marginalCost; }
 
     private:
         ConstantCurve marginalCost;
