@@ -50,7 +50,7 @@ void verify(const Solution& solution, const Market& market) {
             if (q(r) < actor.capacity) {
                 for (int s = 0; s < NumRounds; s++) {
                     assert(q(s) == actor.capacity ||
-                           margin(s) <= 1.02 * margin(r));
+                           margin(s) <= 1.05 * margin(r));
                 }
             }
         }
@@ -60,11 +60,15 @@ void verify(const Solution& solution, const Market& market) {
 }
 
 Solution opec::solve(const Market& market) {
+    const double Delta = 25.;
+    const double TerminationCondition = 100;
+    const int ReportInterval = 1000;
+    const int TerminationQuantum = 1000;
+    const int TerminationIterations = 100000;
+    
     Solution solution(market.size());
     Vector diff(market.size());
     double maxDiff = 0.;
-    const double Delta = 25.;
-    const double TerminationCondition = 10;
     int iter = 0, lastReport;
 
     // 1. Initial values
@@ -117,7 +121,7 @@ Solution opec::solve(const Market& market) {
             actor.update(solution, q);
         }
 
-        if (iter % 1000 == 0) report();
+        if (iter % ReportInterval == 0) report();
 
         // set quantity based on current prices
         for (int a = 0; a < market.size(); a++) {
@@ -169,7 +173,8 @@ Solution opec::solve(const Market& market) {
             actor.isConstrained(q);
         }
 
-    } while ((iter < 100000) && ((++iter - lastReport) < 1000 || maxDiff > TerminationCondition));
+    } while ((++iter < TerminationIterations)
+             && ((iter - lastReport) < TerminationQuantum || maxDiff > TerminationCondition));
 
     report();
     verify(solution, market);
