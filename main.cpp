@@ -31,11 +31,14 @@ int main() {
     for (int c = 0; c < Opec::NumCountries; c++) {
         countries.push_back(&opec::opec[c]);
     }
-    
+
+    std::cout << std::setw(40) << "" << "COMPETITION:" << std::endl;
     Market competitive(countries);
     auto competitiveSolution = solve(competitive);
     dump(competitive, competitiveSolution);
 
+    std::cout << std::endl << std::endl
+              << std::setw(40) << "" << "MONOPOLY:" << std::endl;
     Cartel opec("Opec", countries, competitiveSolution);
     std::vector<Actor*> opecv{&opec};
     Market monopoly(opecv);
