@@ -19,7 +19,7 @@ class Cartel : public Actor {
         int size() const { return (int)actors.size(); }
 
     private:
-        void greedyQuantities(const RowRoundVectorRef production);
+        void simpleQuantities(const RowRoundVectorRef production);
         void preserveConstraints(const RowRoundVectorRef production);
         void verifyQuantities(const RowRoundVectorRef production) const;
         

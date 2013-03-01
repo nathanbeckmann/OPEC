@@ -82,7 +82,7 @@ Cartel::Cartel(string name, const std::vector<Actor*>& _actors, Solution& _compe
 void Cartel::update(Solution& solution, RowRoundVectorRef production) {
     Actor::update(solution, production);
     
-    greedyQuantities(production);
+    simpleQuantities(production);
 
 #if 0
     auto PM = value(production, solution.prices);
@@ -169,12 +169,12 @@ void Cartel::preserveConstraints(const RowRoundVectorRef production) {
     // std::cout << prodSpill.norm() << " " << resSpill.norm() << std::endl << std::endl;
 }
 
-// Initial greedy allocation. Satisfy production, capacity, and
+// Initial simple allocation. Satisfy production, capacity, and
 // reserve constraints.
 //
 // Put as much of the low-marginal-cost (ie high-value) production in
 // early rounds as possible to maximize profit (because of inflation).
-void Cartel::greedyQuantities(const RowRoundVectorRef production) {
+void Cartel::simpleQuantities(const RowRoundVectorRef production) {
     quantities.setZero();
     for (int r = 0; r <= NumRounds; r++) {
         for (int a = 0; a < size(); a++) {
