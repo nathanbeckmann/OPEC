@@ -151,9 +151,10 @@ Solution opec::solve(const Market& market) {
                 satisfied = true;
                 
                 for (int r = 0; r <= NumRounds; r++) {
+                    auto capacity = (r < NumRounds) ? actor.capacity : std::numeric_limits<int>::max();
                     auto nq = q(r) + step(r);
-                    if (nq > actor.capacity || nq < 0.) {
-                        if (nq > actor.capacity) q(r) = actor.capacity;
+                    if (nq > capacity || nq < 0.) {
+                        if (nq > capacity) q(r) = capacity;
                         else q(r) = 0.;
                         
                         constraints(r) = 0.;

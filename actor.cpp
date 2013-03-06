@@ -31,7 +31,7 @@ void Actor::update(Solution& solution, RowRoundVectorRef quantities) {
 }
 
 void Actor::isConstrained(const RoundVector& quantity) const {
-    for (int r = 0; r <= NumRounds; r++) {
+    for (int r = 0; r < NumRounds; r++) {
         bool satisfied = 0. <= quantity(r) && quantity(r) <= capacity;
         if (!satisfied) {
             std::cerr << 0. << " < " << quantity(r) << " < " << capacity << std::endl;

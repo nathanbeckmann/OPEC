@@ -141,7 +141,7 @@ void Cartel::preserveConstraints(const RowRoundVectorRef production) {
         for (int a = 0; a < size(); a++) {
             auto& q = quantities(a, r);
             q = std::max(0., q);
-            q = std::min(q, actorCapacity(a));
+            if (r < NumRounds) q = std::min(q, actorCapacity(a));
         }
     }
 
@@ -187,7 +187,7 @@ void Cartel::simpleQuantities(const RowRoundVectorRef production) {
 void Cartel::verifyQuantities(const RowRoundVectorRef production) const {
     for (int a = 0; a < size(); a++) {
         assert(feq(quantities.row(a).sum(), actorReserves(a)));
-        for (int r = 0; r <= NumRounds; r++) {
+        for (int r = 0; r < NumRounds; r++) {
             auto q = quantities(a, r);
             assert(0. <= q && q <= 1.01 * actorCapacity(a));
         }
