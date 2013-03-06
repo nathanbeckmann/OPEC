@@ -15,7 +15,7 @@ double Market::dPrice(int round, double quantity) const {
 Vector Market::inflate(const Vector& prices) {
     Vector inflated = prices;
     double inflation = 1.;
-    for (int r = NumRounds; r >= 0; r--) {
+    for (int r = NumRounds-1; r >= 0; r--) {
         inflated(r) *= inflation;
         inflation *= InterestRate;
     }
