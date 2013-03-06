@@ -86,21 +86,81 @@ RoundVector Cartel::marginalCost(const RoundVector& quantity) const {
 //
 // So how can we achieve this target PM[i]? Set:
 //
-// AR[i] = avg. revenue per quantity for country i under monopoly
+// AP[i] = avg. profit per quantity for country i under monopoly
 // res[i] = country i's reserves
 //
 // Then:
 // 
-// PM[i] = AR[i] * res[i]       <=>       AR[i] = PM[i] / res[i]
+// PM[i] = AP[i] * res[i]       <=>       AP[i] = PM[i] / res[i]
 //
 // This function iteratively assign reserves to each country such that
-// they end up with AR[i] = PM[i] / res[i].
+// they end up with AP[i] = PM[i] / res[i].
 //
-// This procedure faces these constraints:
-//   - Production per round.
+// This procedure faces these constraints in order of importance:
 //   - Capacity per country.
 //   - Reserves per country.
-//   - Equal average revenue per quantity.
+//   - Equal average profit per quantity.
+//   - Production per round (as assigned by monopoly solver).
+//
+// First assign reserves to achieve desired average revenue. Given a
+// fixed set of prices (as determined by solver), let MP be the
+// marginal profit matrix across rounds and countries. Then let gamma
+// be the vector:
+//
+// gamma[i] = [ AP[i] / MP[i,r] | 0 <= r <= NumRounds ]
+//
+// Further 1-normalize all gamma[i] such that Sum(gamma[i]) = 1. Then
+// quantity can be allocated:
+//
+// production[i] = gamma[i] * res[i]
+//
+// Because
+//
+// AP[i] = (Sum_r MP[i,r] * production[i,r]) / res[i]
+//       = MP[i,r] * AP[i] / MP[i,r]
+//       = AP[i]
+//
+// This may not satisfy capacity, reserve, or production constraints,
+// however. So we now begin a phase of re-assigning quantity to
+// satisfy these constraints.
+//
+// First capacity constraints are satisfied by iteratively
+// constraining dimensions. If any round is over capacity, then that
+// dimension is constrained. Finally, the excess is re-distributed
+// over remaining rounds, keeping AP[i] constant.
+//
+// We maintain AP[i] constant by moving along this plane:
+//
+// Sum_r MP[i,r] * q[i,r] = PM[i]
+//
+// Or equivalently,
+// 
+// Sum_r (MP[i,r] - AP[i]) * q[i,r] = 0
+//
+// So any movement away from AP in a round must be compensated in
+// other rounds.
+//
+// We also must keep total quantity constant:
+//
+// Sum_r q[i,r] = res[i]
+//
+// To satisfy both constraints, we must move along the intersection of
+// the unconstrained dimensions in each plane. This is done by
+// projecting onto each plane sequentially.
+//
+// So to drain excess, we iteratively project the capacity excess
+// times gamma[i] until it is exhausted.
+//
+// After we have the initial allocation of quantities for all actors,
+// we want to target the monopoly quantities as much as possible. This
+// is done by inserting the difference in current OPEC production from
+// monopoly OPEC production using the same projection process. Because
+// this problem may be overconstrained, this proceeds until current
+// OPEC production is within some error bound or a fixed number of
+// iterations.
+// 
+// If at any point the projection of a non-zero vector yields the zero
+// vector, we are at an overconstrained error condition.
 // 
 void Cartel::update(Solution& solution, RowRoundVectorRef production) {
     Actor::update(solution, production);
