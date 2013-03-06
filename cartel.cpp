@@ -36,6 +36,29 @@ Cartel::Cartel(string name, const std::vector<Actor*>& _actors, Solution& _compe
     }
 }
 
+// Compute marginal cost as the weighted average marginal cost of
+// constitute countries, since dq for a monopoly (approximately) is
+// made of up a weighted sum of dq1...dqN.
+RoundVector Cartel::marginalCost(const RoundVector& quantity) const {
+    RoundVector cartelMarginalCost;
+    Vector countryMarginalCost(size());
+    for (int a = 0; a < size(); a++) {
+        auto& actor = *actors[a];
+        auto mc = actor.supply(0).evaluate(0);
+        countryMarginalCost(a) = mc;
+    }
+
+    for (int r = 0; r <= NumRounds; r++) {
+        if (quantities.col(r).sum() > 0.) {
+            cartelMarginalCost(r) = (quantities.col(r).array() * countryMarginalCost.array()).sum() / quantities.col(r).sum();
+        } else {
+            cartelMarginalCost(r) = supply(r).evaluate(0);
+        }
+    }
+
+    return cartelMarginalCost;
+}
+
 // Assign quantities to each member country such that all country's
 // gain from collusion over competition is the same. Let:
 //

@@ -13,6 +13,8 @@ class Cartel : public Actor {
         void update(Solution& solution, RowRoundVectorRef production);
         void dump(const Solution& solution) const;
 
+        RoundVector marginalCost(const RoundVector& quantity) const;
+
         const Curve& supply(int round) const { return piecewise[round]; }
         const RoundMatrix& fullQuantities() const { return quantities; }
 

@@ -20,7 +20,7 @@ class Actor {
         virtual void update(Solution& solution, RowRoundVectorRef quantities);
 
         RoundVector value(const RoundVector& quantity, const RoundVector& prices) const;
-        RoundVector marginalCost(const RoundVector& quantity) const;
+        virtual RoundVector marginalCost(const RoundVector& quantity) const;
         RoundVector marginalRevenue(const RoundVector& prices,
                                     const RoundVector& quantity,
                                     const Market& market,
